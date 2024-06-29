@@ -1,23 +1,5 @@
 import json
 import student
-import sys
-
-
-#initilizing the first teacher
-
-# teacher_data = {
-#     "name" : "Bijay" ,
-#     "subject" : "DSA" ,
-#     "ID" : int(1000),
-#     "address" : "Dhapakhel" ,
-#     "email" : 'bijay078@gmail.com',
-#     "phone_number" : int(9865214755)
-
-# }
-
-# with open("data_files/teacher,json" , "w") as file1:
-#     json.dump(teacher_data , file1)
-#     file1.close()
 
 
 def get_valid_phone_number():
@@ -42,7 +24,7 @@ class Teacher:
         self.email = None
         self.phone_no = None
 
-    def display_std_record(self):
+    def display_std_record(self):                                   #displays brief info on all the student
 
         with open("data_files/student.json" , "r") as file1:
             try:
@@ -56,7 +38,7 @@ class Teacher:
                 print(f"Phone Number :{record['phone_number']}\n")
             file1.close()
 
-    def display_detail_record(self,specific_name):
+    def display_detail_record(self,specific_name):                  #display a detailed info on specific student
          with open("data_files/student.json" , "r") as file2:
             student_data = json.load(file2)
             for record in student_data:
@@ -69,7 +51,7 @@ class Teacher:
                     print(f"Address :{record['address']}\n")
             file2.close()
 
-    def new_student_entry(self):
+    def new_student_entry(self):                                    #used to enter data for a new student
         
         with open("data_files/student.json" , "r") as file3:
             try:
@@ -89,7 +71,7 @@ class Teacher:
             new_roll_number = input("Enter roll number of student :")
             new_student_data['roll_number']= int(new_roll_number)
 
-            for i in new_student_marks.items():
+            for i in new_student_marks.items():                             #used to input marks on each subject
                 key , values = i
                 print(f"Enter the marks obtained in {key}")
                 mark = input(': ')
@@ -105,7 +87,7 @@ class Teacher:
 
             json.dump(content, file4 , indent=4)
 
-    def delete_student_data(self,name_to_delete):
+    def delete_student_data(self,name_to_delete):                           #delete data of student whose name is entered
         with open("data_files/student.json" , "r") as file5:
             try:
                 loaded_file = json.load(file5)
@@ -122,7 +104,7 @@ class Teacher:
             except SyntaxWarning:
                 pass
 
-    def teacher_verification(self):
+    def teacher_verification(self):                                     #if there is no teacher data in the data base ,teacher data is directly entered,if not ,teacher must valididate their entry
          with open ('data_files/teacher.json' , 'r') as file:
             #file_content = json.load(file)
             try:
@@ -136,7 +118,7 @@ class Teacher:
                 teacher_ID = input('Enter teacher ID to validate:')
                 teacher_ID = int(teacher_ID)
                 for file_data in file_content:
-                    if file_data['name'] == teacher_name  and file_data['ID'] == teacher_ID:
+                    if file_data['name'] == teacher_name  and file_data['ID'] == teacher_ID:                #to check if the validation data is in the database or not
                         print(file_data['name'])
                         print(file_data['ID'])
                         print('Log in passed')
@@ -147,7 +129,7 @@ class Teacher:
                 print("No teachers registered in database.")
                 return False
 
-    def add_new_teacher(self):
+    def add_new_teacher(self):                                                #allows existing teachers to add new data in the data base 
 
 
         new_teacher_data = {"name": None, "subject": None, "ID": int, "address": None, "email": None, "phone_number": int}
@@ -185,7 +167,7 @@ class Teacher:
                 json.dump(file_content , file)
                 return("Teacher added to the data base")
              
-    def is_file_empty(self):
+    def is_file_empty(self):                                                    #to check if the file is empty or not
         with open ('data_files/teacher.json' , 'r') as file:
 
             try:

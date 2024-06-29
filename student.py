@@ -1,7 +1,7 @@
 import json
 class Student:
 
-    def __init__ (self,):
+    def __init__ (self):
         self.name = None
         self.roll = None
         self.marks = {}
@@ -12,9 +12,11 @@ class Student:
 
 
     def student_entry(self):
+        """Function check for student name in the database and assign the indx so ,respective information can be fetched
+        """
+
         self.name = input("Enter your name :")
         while True:
-            with open("data_files/student.json" , "r") as file1:
                 try:
                     with open("data_files/student.json" , "r") as file1:
                         student_data = json.load(file1)
@@ -22,7 +24,7 @@ class Student:
                 except json.decoder.JSONDecodeError:
                     print("Oops!  The teacher has not defined any student\n\n")
 
-                for idx , record in enumerate(student_data):
+                for idx , record in enumerate(student_data):                    #checks the name in every element in the list until it has found the index with the name in it
                     if record['name'] == self.name:
                         self.idx = idx
                         break
@@ -33,6 +35,11 @@ class Student:
     
     
     def Pass_Fail_Determination(self):
+        """_checks each marks obtained by a single student and returns false if any of them is less than 32
+
+        Returns:
+            bool: false if any marks obtained < 32 or data not present 
+        """
         if self.idx != None:
             with open("data_files/student.json" , "r") as file1:
                 try:
@@ -54,7 +61,15 @@ class Student:
     
             
     def Highest_and_Lowest_Scores(self):
-        print(f"The highest score is {max(self.marks)} \n Lowest score is {min(self.marks)}")
+        """returns the highest and the lowest marks obtained 
+        """
+        mark_list = self.marks
+        highest_mark = 0
+        lowest_mark = 100
+        for key , value in mark_list.items():
+                highest_mark = max(highest_mark , value)
+                lowest_mark = min(lowest_mark , value)
+        print(f"The highest score is {max(self.marks)} : {highest_mark} \n Lowest score is {min(self.marks)} : {lowest_mark}")
 
 
 

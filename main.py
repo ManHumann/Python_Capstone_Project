@@ -2,35 +2,35 @@ import student as st
 import teacher as th
 import json
 
-teacher_object = th.Teacher()
-student_object = st.Student()
+teacher_object = th.Teacher()               #creating object of teacher class
+student_object = st.Student()               #creating object of student class
 
 print("Select role:")
 key = input("Enter 1 for teacher, 2 for student, 0 to exit: ")
 
-def role_selector(role_key):
-    while True:
+def role_selector(role_key):                                 #switch case is not available in python ,ence if-elif labber is used 
+    while True:                                             #ladder runs until the role_key value satisfies
         if role_key == '1':
-            if teacher_object.is_file_empty():
+            if teacher_object.is_file_empty():               #this executes if the teacher database is empty
                 print("Enter data for the first teacher")
                 teacher_object.add_new_teacher()
 
-            return_key = '100'
+            return_key = '100'                              #if teacher already exists in database file ,it won't ask for validation
             while return_key != '10':
-                teacher_roles()
+                teacher_roles()                             #prints out the actions that can be performed by the user
                 teacher_key = input("Enter the operation number you want to perform: ")
-                return_key = teacher_task(teacher_key)
+                return_key = teacher_task(teacher_key)      #performs actions according to value returned
 
             # Exit teacher role loop, return to main role selection
             role_key = input("Enter 1 for teacher, 2 for student, 0 to exit: ")
 
         elif role_key == '2':
-            student_object.student_entry()
+            student_object.student_entry()              #checks is there any value in student database ?
             return_key = '200'
             while return_key != '20':
-                student_roles()
+                student_roles()                          #prints out the actions that can be performed by the user
                 student_key = input("Enter the operation number you want to perform: ")
-                return_key = student_task(student_key)
+                return_key = student_task(student_key)       #performs actions according to value returned   
 
             # Exit student role loop, return to main role selection
             role_key = input("Enter 1 for teacher, 2 for student, 0 to exit: ")
@@ -43,7 +43,7 @@ def role_selector(role_key):
             print("Invalid number selected, please select again.")
             role_key = input("Enter 1 for teacher, 2 for student, 0 to exit: ")
 
-def student_task(task_key):
+def student_task(task_key):                             #depending the value obtained from line 32 ,this functions performs the following tasks
     if task_key == '1':
         result = student_object.Pass_Fail_Determination()
         if result:
@@ -67,7 +67,7 @@ def student_task(task_key):
         print("Invalid number selected, please select again.")
         return '100'
 
-def teacher_task(task_key):
+def teacher_task(task_key):                         #depending the value obtained from line 21 ,this functions performs the following tasks
     if task_key == '1':
         teacher_object.add_new_teacher()
         return '100'
@@ -97,7 +97,7 @@ def teacher_task(task_key):
         print("Invalid number selected, please select again.")
         return '100'
 
-def teacher_roles():
+def teacher_roles():                                            #function to display the actions that can be performed by teacher
     print("1. Add new teacher")
     print("2. Add new student")
     print("3. See student reports")
@@ -105,7 +105,7 @@ def teacher_roles():
     print("5. Delete student record")
     print("0. To exit")
 
-def student_roles():
+def student_roles():                                            #function to display the actions that can be performed by student
     print("1. Pass-Fail determination")
     print("2. Highest and Lowest Scores")
     print("3. Percentage")
