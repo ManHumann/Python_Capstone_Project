@@ -2,18 +2,26 @@ import json
 import student
 
 
-def get_valid_phone_number():
+def get_valid_phone_number(phone_number):
     while True:
         try:
-            phone_number = input("Enter your 10-digit phone number: ")
            
-            phone_number = int(phone_number)      #converts input to integer
+            phone = int(phone_number)      #converts input to integer
             if len(phone_number) == 10:           #checks for 10 digit
-                return phone_number             # Return the valid phone number
+                return phone             # Return the valid phone number
             else:
                 print("Please enter exactly 10 digits.")
         except ValueError:
             print("Please enter numeric digits only.")
+
+
+# def get_valid_email(email_check):
+#     characters = [',','.','!','@','#','^','%','$','*','/','+','-']
+#     while True:
+#         try:
+#             if email_check[0] not in characters and email_check[-1] not in characters:
+#                 pass
+#             pass
 
 class Teacher:
 
@@ -39,7 +47,7 @@ class Teacher:
             file1.close()
 
     def display_detail_record(self,specific_name):                  #display a detailed info on specific student
-         with open("data_files/student.json" , "r") as file2:
+        with open("data_files/student.json" , "r") as file2:
             student_data = json.load(file2)
             for record in student_data:
                 if record['name'] == specific_name:
@@ -67,18 +75,26 @@ class Teacher:
             new_student_data['email'] = input("Enter email of the student :")
             new_student_data['address'] = input("Enter address of the student :")
             new_number = input("Enter phone number of student :")
-            new_student_data['phone_number'] = get_valid_phone_number()
+            new_student_data['phone_number'] = get_valid_phone_number(new_number)
             new_roll_number = input("Enter roll number of student :")
             new_student_data['roll_number']= int(new_roll_number)
 
-            for i in new_student_marks.items():                             #used to input marks on each subject
+            sum = 0
+            percentage = 0
+            for idx , i in enumerate(new_student_marks.items()):                             #used to input marks on each subject
                 key , values = i
                 print(f"Enter the marks obtained in {key}")
                 mark = input(': ')
                 new_student_marks[key] = int(mark)
+                sum = sum + int(mark)
+                
+            
+
+            percentage = (sum/3)*100
                 
 
             new_student_data["marks"] = new_student_marks 
+            new_student_data["percentage"] = percentage
 
             content.append(new_student_data)
 
@@ -116,14 +132,13 @@ class Teacher:
             if file_content != []:
                 teacher_name = input("Enter teacher name to validate:") 
                 teacher_ID = input('Enter teacher ID to validate:')
-                teacher_ID = int(teacher_ID)
                 for file_data in file_content:
                     if file_data['name'] == teacher_name  and file_data['ID'] == teacher_ID:                #to check if the validation data is in the database or not
                         print(file_data['name'])
                         print(file_data['ID'])
                         print('Log in passed')
                         return True
-                print("Teacher not registered in database.")
+                    print("Data storred")
                 return False
             else:
                 print("No teachers registered in database.")
@@ -132,11 +147,11 @@ class Teacher:
     def add_new_teacher(self):                                                #allows existing teachers to add new data in the data base 
 
 
-        new_teacher_data = {"name": None, "subject": None, "ID": int, "address": None, "email": None, "phone_number": int}
+        new_teacher_data = {"name": None, "subject": None, "ID": str, "address": None, "email": None, "phone_number": int}
         for key in new_teacher_data:
             print(f"Enter teacher {key}")
             new_teacher_data[key] = input(": ")
-        with open ('data_files/teacher.json' , 'r+') as file:
+        with open ('data_files/teacher.json' , 'r') as file:
 
             try:
                 file_content = json.load(file)
@@ -146,26 +161,32 @@ class Teacher:
             if file_content == []:
 
                 initial_entry = [new_teacher_data]
-                json.dump(initial_entry , file)
-                file.close()
+                file_content[0] = initial_entry
+            else:
+                file_content.append(new_teacher_data)
+
+        with open ('data_files/teacher.json' , 'w') as file:
+
+            json.dump(file_content , file)    
+        
                  
             
-        with open("data_files/student.json" , "r") as file:
-            try:
-                file_content = json.load(file)
-            except json.decoder.JSONDecodeError:
-                file_content = []
+        # with open("data_files/student.json" , "r") as file:
+        #     try:
+        #         file_content = json.load(file)
+        #     except json.decoder.JSONDecodeError:
+        #         file_content = []
 
-            if self.teacher_verification():
-                file_content.append(new_teacher_data)
-                key = 1
-            else:
+        #     if self.teacher_verification():
+        #         file_content.append(new_teacher_data)
+        #         key = 1
+        #     else:
                 
-                return("Teacher not registerd in database")
-        if key == 1:    
-            with open ('data_files/teacher.json' , 'w') as file:
-                json.dump(file_content , file)
-                return("Teacher added to the data base")
+        #         return("Teacher not registerd in database")
+        # if key == 1:    
+        #     with open ('data_files/teacher.json' , 'w') as file:
+        #         json.dump(file_content , file)
+        #         return("Teacher added to the data base")
              
     def is_file_empty(self):                                                    #to check if the file is empty or not
         with open ('data_files/teacher.json' , 'r') as file:
@@ -174,6 +195,8 @@ class Teacher:
                 record = json.load(file)
             except json.decoder.JSONDecodeError:
                 return True
+            
+            return False
 
 
 

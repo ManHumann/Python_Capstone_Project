@@ -1,0 +1,28 @@
+[
+    {
+        "name": "lunasha",
+        "email": "lunashagreat@gmail.com",
+        "address": "lokenthali",
+        "phone_number": 9865214477,
+        "roll_number": 6,
+        "marks": {
+            "D.S.A": 43,
+            "T.O.C": 54,
+            "Python": 67
+        },
+        "percentage": 54.666666666666664
+    },
+    {
+        "name": "manav",
+        "email": "manavgreat#gmail.com",
+        "address": "balkhu",
+        "phone_number": 9856321144,
+        "roll_number": 24,
+        "marks": {
+            "D.S.A": 40,
+            "T.O.C": 40,
+            "Python": 40
+        },
+        "percentage": 4000.0
+    }
+]

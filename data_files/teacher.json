@@ -1,0 +1,18 @@
+[
+    {
+        "name": "hari",
+        "subject": "dsa",
+        "ID": "1234",
+        "address": "thankot",
+        "email": "hari@gmail.com",
+        "phone_number": "9856321177"
+    },
+    {
+        "name": "shyam",
+        "subject": "coa",
+        "ID": "4321",
+        "address": "thankot",
+        "email": "shyam@gmail.com",
+        "phone_number": "9865321100"
+    }
+]

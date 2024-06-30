@@ -1,5 +1,6 @@
 import student as st
 import teacher as th
+import sys
 import json
 
 teacher_object = th.Teacher()               #creating object of teacher class
@@ -11,9 +12,24 @@ key = input("Enter 1 for teacher, 2 for student, 0 to exit: ")
 def role_selector(role_key):                                 #switch case is not available in python ,ence if-elif labber is used 
     while True:                                             #ladder runs until the role_key value satisfies
         if role_key == '1':
-            if teacher_object.is_file_empty():               #this executes if the teacher database is empty
-                print("Enter data for the first teacher")
-                teacher_object.add_new_teacher()
+            entry_key = 1
+            strikes = 0
+            while entry_key != 0:
+                if teacher_object.teacher_verification():               #this executes if the teacher database is empty
+                    print("Login successful")
+                    entry_key = 0
+                else:
+                    if teacher_object.is_file_empty():
+                        print('Enter data for first teacher')
+                        teacher_object.add_new_teacher()
+                        entry_key = 0
+                    else:
+                        print("Teacher not stored in data base")
+                        strikes += 1
+                        if strikes > 3:
+                            print("You had enough chances ,the program is closing")
+                            sys.exit()
+                
 
             return_key = '100'                              #if teacher already exists in database file ,it won't ask for validation
             while return_key != '10':
@@ -60,8 +76,12 @@ def student_task(task_key):                             #depending the value obt
         student_object.Percentage()
         return '200'
 
+    elif task_key == '4':
+        student_object.rank()
+        return '200'
+
     elif task_key == '0':
-        return '210'
+        return '20'
 
     else:
         print("Invalid number selected, please select again.")
@@ -109,6 +129,7 @@ def student_roles():                                            #function to dis
     print("1. Pass-Fail determination")
     print("2. Highest and Lowest Scores")
     print("3. Percentage")
+    print("4. Rank")
     print("0. To exit")
 
 if __name__ == "__main__":
