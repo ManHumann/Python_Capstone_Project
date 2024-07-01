@@ -24,5 +24,18 @@
             "Python": 40
         },
         "percentage": 4000.0
+    },
+    {
+        "name": "pranil",
+        "email": "pranil123@gmail.com",
+        "address": "bhatapur",
+        "phone_number": 9562147852,
+        "roll_number": 29,
+        "marks": {
+            "D.S.A": 45,
+            "T.O.C": 60,
+            "Python": 69
+        },
+        "percentage": 5800.0
     }
 ]

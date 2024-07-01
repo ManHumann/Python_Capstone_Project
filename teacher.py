@@ -1,5 +1,6 @@
 import json
 import student
+import re
 
 
 def get_valid_phone_number(phone_number):
@@ -15,13 +16,36 @@ def get_valid_phone_number(phone_number):
             print("Please enter numeric digits only.")
 
 
-# def get_valid_email(email_check):
-#     characters = [',','.','!','@','#','^','%','$','*','/','+','-']
-#     while True:
-#         try:
-#             if email_check[0] not in characters and email_check[-1] not in characters:
-#                 pass
-#             pass
+def get_valid_email(email_check):                                   #using regular expression for email verification
+    
+    while not re.match(r"[^@]+@[^@]+\.[^@]+",email_check):
+        email_check = input("Invalid email please enter again")
+
+    return email_check
+
+def is_roll_in_database(roll_check):
+    with open("data_files/student.json" , "r") as file0:
+            try:
+                student_data = json.load(file0)
+            except json.decoder.JSONDecodeError:
+                return roll_check
+            while student_data['roll_number'] == roll_check:
+                roll_check = input("Roll already exists enter another")
+
+            return roll_check
+                        
+def is_id_in_database(id_check):
+    with open("data_files/teacher.json" , "r") as file0:
+            try:
+                teacher_data = json.load(file0)
+            except json.decoder.JSONDecodeError:
+                return id_check
+            while teacher_data['ID'] == id_check:
+                id_check = input("ID already exists enter another")
+
+            return id_check
+
+
 
 class Teacher:
 
@@ -72,12 +96,18 @@ class Teacher:
             new_student_marks = {"D.S.A" : None , "T.O.C" : None , "Python" : None}
             
             new_student_data['name'] = input("Enter name of the Student :")
-            new_student_data['email'] = input("Enter email of the student :")
+
+            temp_email = input("Enter email of the student :")
+            new_student_data['email'] = get_valid_email(temp_email)
+
             new_student_data['address'] = input("Enter address of the student :")
+
             new_number = input("Enter phone number of student :")
             new_student_data['phone_number'] = get_valid_phone_number(new_number)
-            new_roll_number = input("Enter roll number of student :")
-            new_student_data['roll_number']= int(new_roll_number)
+
+            
+            temp_roll_number = input("Enter roll number of student :")
+            new_student_data['roll_number'] = is_roll_in_database(temp_roll_number) 
 
             sum = 0
             percentage = 0
@@ -147,10 +177,17 @@ class Teacher:
     def add_new_teacher(self):                                                #allows existing teachers to add new data in the data base 
 
 
-        new_teacher_data = {"name": None, "subject": None, "ID": str, "address": None, "email": None, "phone_number": int}
+        new_teacher_data = {"name": None, "subject": None, "address": None, "phone_number": int}
         for key in new_teacher_data:
             print(f"Enter teacher {key}")
             new_teacher_data[key] = input(": ")
+
+        temp_email = input("Enter email of the teacher :")                      #email validity
+        new_teacher_data['email'] = get_valid_email(temp_email)
+
+        temp_id = input("Enter ID of the teacher :")                            #ID dhould be unique and not repeated
+        new_teacher_data['ID'] = is_id_in_database(temp_id)
+
         with open ('data_files/teacher.json' , 'r') as file:
 
             try:
