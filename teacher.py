@@ -23,27 +23,28 @@ def get_valid_email(email_check):                                   #using regul
 
     return email_check
 
-def is_roll_in_database(roll_check):
-    with open("data_files/student.json" , "r") as file0:
-            try:
-                student_data = json.load(file0)
-            except json.decoder.JSONDecodeError:
-                return roll_check
-            while student_data['roll_number'] == roll_check:
-                roll_check = input("Roll already exists enter another")
+# def is_roll_in_database(roll_check):
+#     with open("data_files/student.json" , "r") as file0:
+#             try:
+#                 student_data = json.load(file0)
+#             except json.decoder.JSONDecodeError:
+#                 return roll_check
+            
+#             while student_data['roll_number'] == int(roll_check):
+#                 roll_check = input("Roll already exists enter another")
 
-            return roll_check
+#             return roll_check
                         
-def is_id_in_database(id_check):
-    with open("data_files/teacher.json" , "r") as file0:
-            try:
-                teacher_data = json.load(file0)
-            except json.decoder.JSONDecodeError:
-                return id_check
-            while teacher_data['ID'] == id_check:
-                id_check = input("ID already exists enter another")
+# def is_id_in_database(id_check):
+#     with open("data_files/teacher.json" , "r") as file0:
+#             try:
+#                 teacher_data = json.load(file0)
+#             except json.decoder.JSONDecodeError:
+#                 return id_check
+#             while teacher_data['ID'] == id_check:
+#                 id_check = input("ID already exists enter another")
 
-            return id_check
+#             return id_check
 
 
 
@@ -107,7 +108,7 @@ class Teacher:
 
             
             temp_roll_number = input("Enter roll number of student :")
-            new_student_data['roll_number'] = is_roll_in_database(temp_roll_number) 
+            new_student_data['roll_number'] = int(temp_roll_number) 
 
             sum = 0
             percentage = 0
@@ -186,7 +187,7 @@ class Teacher:
         new_teacher_data['email'] = get_valid_email(temp_email)
 
         temp_id = input("Enter ID of the teacher :")                            #ID dhould be unique and not repeated
-        new_teacher_data['ID'] = is_id_in_database(temp_id)
+        new_teacher_data['ID'] = temp_id
 
         with open ('data_files/teacher.json' , 'r') as file:
 
